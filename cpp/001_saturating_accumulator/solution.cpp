@@ -1,4 +1,5 @@
 #include <vector>
+#include <climits>
 
 long long saturatingSum(
     const std::vector<int>& values,
@@ -6,13 +7,27 @@ long long saturatingSum(
     long long upper
 ) {
     long long sum = 0;
-    for (int i = 0; i < values.size(); i ++){
-      sum += values[i];
-      if(sum <= lower){
-        sum = lower;
-      }else if (sum >= upper){
-        sum = upper;
-      }
+
+    for (int value : values) {
+
+        // Prevent long long overflow before doing sum + value
+        if (value > 0 && sum > LLONG_MAX - value) {
+            sum = upper;
+        }
+        else if (value < 0 && sum < LLONG_MIN - value) {
+            sum = lower;
+        }
+        else {
+            sum += value;
+
+            if (sum > upper) {
+                sum = upper;
+            }
+            else if (sum < lower) {
+                sum = lower;
+            }
+        }
     }
+
     return sum;
 }
