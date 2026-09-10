@@ -13,6 +13,6 @@ long long saturatingSum(
       }else if (sum >= upper){
         sum = upper;
       }
-    return sum;
     }
+    return sum;
 }
